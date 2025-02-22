@@ -8,8 +8,8 @@ Sharing MATLAB code and data for reproducing results and facilitating review.
 
 ## Repository Structure
 
-* **`simulations/`**: MATLAB simulation code and data.
-* **`experiments/`**: MATLAB experimental data and analysis code.
+* **`Simulation/`**: MATLAB simulation code and data.
+* **`Experiment/`**: MATLAB experimental data and analysis code.
 
 Detailed instructions are provided in the README files within each folder.
 
