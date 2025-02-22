@@ -1,4 +1,4 @@
-# Simulations
+# Simulation
 
 This folder contains MATLAB simulation code and data for UAV parameter estimation using the WyNDA algorithm.
 
