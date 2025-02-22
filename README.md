@@ -11,7 +11,7 @@ Sharing MATLAB code and data for reproducing results and facilitating review.
 * **`Simulation/`**: MATLAB simulation code and data.
 * **`Experiment/`**: MATLAB experimental data and analysis code.
 
-Detailed instructions are provided in the README files within each folder.
+Instructions are provided in the README files within each folder.
 
 ## IEEE Transactions on Industrial Electronics Submission
 
