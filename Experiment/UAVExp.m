@@ -57,10 +57,10 @@ thetahatArray = [];
 % Define tuning parameters for estimation
 a = 0.999;
 lambda = 0.999;
-Q = 6182.8 * eye(n);
-R = 0.0185 * eye(n);
-P = 0.0184 * eye(n);
-S = 0.0029 * eye(r);
+Q = 5e3 * eye(n);
+R = 1e-2 * eye(n);
+P = 1e-2 * eye(n);
+S = 1e-3 * eye(r);
 Upsilon = zeros(n,r);
 
 % Recursive estimation loop
