@@ -100,8 +100,9 @@ for i = 1:length(psiact)
     
     % Update estimations
     ytilde = y - xhat;
-    Q = a * Q + (1 - a) * K * ytilde * ytilde' * K';
-    R = a * R + (1 - a) * (ytilde * ytilde' + P);
+    Xi = K + Upsilon * Gamma; Psi = eye(n) - Xi;
+    Q = a * Q + (1 - a) * Xi * ytilde * ytilde' * Xi';
+    R = a * R + (1 - a) * Psi * ytilde * ytilde' * Psi';
     thetahat = thetahat + Gamma * ytilde;
     xhat = xhat + f * dt + Phi * thetahat + K * ytilde + Upsilon * Gamma * ytilde;
 end
@@ -122,19 +123,19 @@ R = Rz * Ry * Rx;
 vertices = (R * vertices')' + uav_pos;
 
 % Plot actual vs estimated trajectory
-figure; plot3(xact,yact,zact,'k','LineWidth',2); hold on;
-plot3(xhatArray(10,:),xhatArray(11,:),xhatArray(12,:),'b--','LineWidth',2);
+figure; plot3(xact,yact,zact,'k','LineWidth',4); hold on;
+plot3(xhatArray(10,:),xhatArray(11,:),xhatArray(12,:),'b--','LineWidth',4);
 patch('Faces',faces,'Vertices',vertices, ...
     'FaceColor',[0.7 0.7 0.7],'EdgeColor',[0.3 0.3 0.3]);
 xlabel('$x\;(m)$','Interpreter','latex'); 
 ylabel('$y\;(m)$','Interpreter','latex'); 
 zlabel('$z\;(m)$','Interpreter','latex'); hold off;
-grid on; xlim tight; ylim tight; set(gca,'FontSize',14); axis equal
-legend('Actual Trajectory','Estimated Trajectory', ...
-    'Location','northeast','Orientation','horizontal');
+grid on; xlim tight; ylim tight; set(gca,'FontSize',32); axis equal
+legend('Actual Trajectory','Estimated Trajectory', 'FontSize', 32, ...
+    'Location','northeast','Orientation','vertical');
 view(740,20);
 
-% Uncomment for estimation error evolution (takes significant time)
+% % Uncomment for estimation error evolution (takes significant time)
 % for j = 1:length(thetahatArray)
 %     xest = [phiact(1) thetaact(1) psiact(1) pact(1) qact(1) ract(1) ...
 %             uact(1) vact(1) wact(1) xact(1) yact(1) zact(1)]';
@@ -158,8 +159,8 @@ view(740,20);
 %             zeros(2,7); 0 0 0 0 0 0 u(1)^2+u(2)^2+u(3)^2+u(4)^2; 
 %             zeros(3,7)];
 % 
-%         xest = y+f*dt+Phi*thetahatArray(:,j);
-%         re(:,k) = xest-y;
+%         xest = y + f * dt + Phi * thetahatArray(:,j);
+%         re(:,k) = xest - y;
 %     end
 % 
 %     nrmse(j) = norm(sqrt(mean(re.^2,2)));
@@ -169,11 +170,10 @@ view(740,20);
 % fh = figure(2);
 % fh.Position = [1500 500 750 250];
 % % fh.WindowState = 'maximized';
-% plot(nrmse,'LineWidth',2,'Color','#7E2F8E'); hold on; 
-% plot(nmae,'LineWidth',2,'Color','#A2142F'); 
-% grid on; xlim tight; set(gca,'FontSize',14);
+% plot(nrmse,'LineWidth',4,'Color','#7E2F8E'); hold on; 
+% plot(nmae,'LineWidth',4,'Color','#A2142F'); 
+% grid on; xlim tight; set(gca,'FontSize',32);
 % legend('RMSE Evolution','MAE Evolution');
 % ylabel(['$\|\vec{e}(\vec{x},\hat{\vec{x}})\|$'], ...
 %     'Interpreter','latex'); 
 % xlabel('Iteration'); hold off;
-
