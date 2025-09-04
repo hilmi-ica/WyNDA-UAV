@@ -25,8 +25,8 @@ thetahat = zeros(r,1);
 thetahatArray = [];
 
 % Initialize filter parameters
-a = 0.95;
-lambda = 0.97;
+a = 0.98;
+lambda = 0.999;
 Q = 0.001*eye(n);
 R = 0.1*eye(n);
 P = 0.01*eye(n);
@@ -79,6 +79,9 @@ for i = 1:length(uHistory)
     
     % Estimation update
     ytilde = yact - xhat;
+    Xi = K + Upsilon * Gamma; Psi = eye(n) - Xi;
+    Q = a * Q + (1 - a) * Xi * ytilde * ytilde' * Xi';
+    R = a * R + (1 - a) * Psi * ytilde * ytilde' * Psi';
     thetahat = thetahat + Gamma * ytilde;
     xhat = xhat + f * dt + Phi * thetahat + K * ytilde + Upsilon * Gamma * ytilde;
 end
@@ -88,9 +91,9 @@ t = 0:dt:(i-1)*dt;
 
 % Plot trajectories
 figure(1);
-plot3(x,y,z,'k:','LineWidth',2); hold on;
-plot3(yactArray(10,:),yactArray(11,:),yactArray(12,:),'LineWidth',2);
-plot3(xhatArray(10,:),xhatArray(11,:),xhatArray(12,:),'LineWidth',2, ...
+plot3(x,y,z,'k:','LineWidth',4); hold on;
+plot3(yactArray(10,:),yactArray(11,:),yactArray(12,:),'LineWidth',4);
+plot3(xhatArray(10,:),xhatArray(11,:),xhatArray(12,:),'LineWidth',4, ...
     'Color','#77AC30','LineStyle','--');
 plotBoxSim(yactArray(:,101)); plotBoxSim(yactArray(:,201)); 
 xlabel('$x\;(m)$','Interpreter','latex'); 
@@ -98,37 +101,38 @@ ylabel('$y\;(m)$','Interpreter','latex');
 zlabel('$z\;(m)$','Interpreter','latex'); grid on; axis equal;
 legend('Desired Trajectory','Actual Trajectory','Estimated Trajectory', ...
     'Location','south','Orientation','horizontal');
+set(gca,'FontSize',32);
 
 % Plot parameter estimation results
-figure(2);
-subplot(4,2,1); plot(t,(Iy-Iz)/Ix*ones(1,length(t)),'k','LineWidth',2)
-hold on; plot(t,thetahatArray(1,:)/dt,'--','LineWidth',2,'Color',"#77AC30"); 
-grid minor; xlim tight; set(gca,'FontSize',14); 
+fh = figure(2); fh.Position = [150 80 970 870];
+subplot(4,2,1); plot(t,(Iy-Iz)/Ix*ones(1,length(t)),'k','LineWidth',4)
+hold on; plot(t,thetahatArray(1,:)/dt,'--','LineWidth',4,'Color',"#77AC30"); 
+grid minor; xlim tight; set(gca,'FontSize',32); 
 ylabel('$\frac{I_{yy}-I_{zz}}{I_{xx}}$','Interpreter','latex'); hold off
-subplot(4,2,2); plot(t,1/Ix*ones(1,length(t)),'k','LineWidth',2)
-hold on; plot(t,thetahatArray(2,:)/dt,'--','LineWidth',2,'Color',"#77AC30"); 
-grid minor; xlim tight; set(gca,'FontSize',14);
+subplot(4,2,2); plot(t,1/Ix*ones(1,length(t)),'k','LineWidth',4)
+hold on; plot(t,thetahatArray(2,:)/dt,'--','LineWidth',4,'Color',"#77AC30"); 
+grid minor; xlim tight; set(gca,'FontSize',32);
 ylabel('$\frac{1}{I_{xx}}$','Interpreter','latex'); hold off
-subplot(4,2,3); plot(t,(Iz-Ix)/Iy*ones(1,length(t)),'k','LineWidth',2)
-hold on; plot(t,thetahatArray(3,:)/dt,'--','LineWidth',2,'Color',"#77AC30");
-grid minor; xlim tight; set(gca,'FontSize',14);
+subplot(4,2,3); plot(t,(Iz-Ix)/Iy*ones(1,length(t)),'k','LineWidth',4)
+hold on; plot(t,thetahatArray(3,:)/dt,'--','LineWidth',4,'Color',"#77AC30");
+grid minor; xlim tight; set(gca,'FontSize',32);
 ylabel('$\frac{I_{zz}-I_{xx}}{I_{yy}}$','Interpreter','latex'); hold off
-subplot(4,2,4); plot(t,1/Iy*ones(1,length(t)),'k','LineWidth',2)
-hold on; plot(t,thetahatArray(4,:)/dt,'--','LineWidth',2,'Color',"#77AC30"); 
-grid minor; xlim tight; set(gca,'FontSize',14);
+subplot(4,2,4); plot(t,1/Iy*ones(1,length(t)),'k','LineWidth',4)
+hold on; plot(t,thetahatArray(4,:)/dt,'--','LineWidth',4,'Color',"#77AC30"); 
+grid minor; xlim tight; set(gca,'FontSize',32);
 ylabel('$\frac{1}{I_{yy}}$','Interpreter','latex'); hold off
-subplot(4,2,5); plot(t,(Ix-Iy)/Iz*ones(1,length(t)),'k','LineWidth',2)
-hold on; plot(t,thetahatArray(5,:)/dt,'--','LineWidth',2,'Color',"#77AC30"); 
-grid minor; xlim tight; set(gca,'FontSize',14);
+subplot(4,2,5); plot(t,(Ix-Iy)/Iz*ones(1,length(t)),'k','LineWidth',4)
+hold on; plot(t,thetahatArray(5,:)/dt,'--','LineWidth',4,'Color',"#77AC30"); 
+grid minor; xlim tight; set(gca,'FontSize',32);
 ylabel('$\frac{I_{xx}-I_{yy}}{I_{zz}}$','Interpreter','latex'); hold off
-subplot(4,2,6); plot(t,1/Iz*ones(1,length(t)),'k','LineWidth',2)
-hold on; plot(t,thetahatArray(6,:)/dt,'--','LineWidth',2,'Color',"#77AC30"); 
-grid minor; xlim tight; ylim([-100 100]); set(gca,'FontSize',14);
+subplot(4,2,6); plot(t,1/Iz*ones(1,length(t)),'k','LineWidth',4)
+hold on; plot(t,thetahatArray(6,:)/dt,'--','LineWidth',4,'Color',"#77AC30"); 
+grid minor; xlim tight; set(gca,'FontSize',32);
 ylabel('$\frac{1}{I_{zz}}$','Interpreter','latex'); hold off
-subplot(4,2,[7,8]); plot(t,1/m*ones(1,length(t)),'k','LineWidth',2)
-hold on; plot(t,thetahatArray(7,:)/dt,'--','LineWidth',2,'Color',"#77AC30"); 
+subplot(4,2,[7,8]); plot(t,1/m*ones(1,length(t)),'k','LineWidth',4)
+hold on; plot(t,thetahatArray(7,:)/dt,'--','LineWidth',4,'Color',"#77AC30"); 
 grid minor; xlim tight; xlabel('$t\;(s)$','Interpreter','latex'); 
 legend({'\textbf{Parameters}','\boldmath$\theta$'},'Interpreter' ...
     ,'latex','Location','southeast','Orientation','horizontal')
 ylabel('$\frac{1}{m}$','Interpreter','latex'); hold off
-set(gca,'FontSize',14);
+set(gca,'FontSize',32);
