@@ -25,7 +25,7 @@ thetahat = zeros(r,1);
 thetahatArray = [];
 
 % Initialize filter parameters
-a = 0.98;
+a = 0.975;
 lambda = 0.999;
 Q = 0.001*eye(n);
 R = 0.1*eye(n);
@@ -40,8 +40,10 @@ for i = 1:length(uHistory)
     thetahatArray = [thetahatArray thetahat];
 
     % Process noise
-    wn = [-0.02+0.04*rand(3,1); -0.08+0.16*rand(3,1);
-        -0.05+0.1*rand(3,1); -0.05+0.1*rand(3,1)];
+    wn = [-0.02+0.04*sum(rand(3,100),2)/100; 
+          -0.08+0.16*sum(rand(3,100),2)/100;
+          -0.05+0.1*sum(rand(3,100),2)/100; 
+          -0.05+0.1*sum(rand(3,100),2)/100];
     
     % Update true state
     uact = uHistory(i,:)';
@@ -84,6 +86,8 @@ for i = 1:length(uHistory)
     R = a * R + (1 - a) * Psi * ytilde * ytilde' * Psi';
     thetahat = thetahat + Gamma * ytilde;
     xhat = xhat + f * dt + Phi * thetahat + K * ytilde + Upsilon * Gamma * ytilde;
+
+    se(:,i) = xact - xhat;
 end
 
 % Time vector
@@ -101,7 +105,7 @@ ylabel('$y\;(m)$','Interpreter','latex');
 zlabel('$z\;(m)$','Interpreter','latex'); grid on; axis equal;
 legend('Desired Trajectory','Actual Trajectory','Estimated Trajectory', ...
     'Location','south','Orientation','horizontal');
-set(gca,'FontSize',32);
+set(gca,'FontSize',32); 
 
 % Plot parameter estimation results
 fh = figure(2); fh.Position = [150 80 970 870];
