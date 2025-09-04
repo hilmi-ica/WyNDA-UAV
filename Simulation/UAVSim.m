@@ -86,8 +86,6 @@ for i = 1:length(uHistory)
     R = a * R + (1 - a) * Psi * ytilde * ytilde' * Psi';
     thetahat = thetahat + Gamma * ytilde;
     xhat = xhat + f * dt + Phi * thetahat + K * ytilde + Upsilon * Gamma * ytilde;
-
-    se(:,i) = xact - xhat;
 end
 
 % Time vector
