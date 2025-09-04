@@ -58,18 +58,18 @@ function plotBoxSim(state)
     quiver3(origin(1), origin(2), origin(3), ...
             xAxis(1)-origin(1), xAxis(2)-origin(2), xAxis(3)-origin(3), ...
             0, 'r', 'LineWidth', 1.5, 'MaxHeadSize', 0.5);
-    text(xAxis(1), xAxis(2), xAxis(3), 'X', 'Color', 'r', 'FontSize', 12);
+    text(xAxis(1), xAxis(2), xAxis(3), 'X', 'Color', 'r', 'FontSize', 32);
     
     % Plot Y-axis
     quiver3(origin(1), origin(2), origin(3), ...
             yAxis(1)-origin(1), yAxis(2)-origin(2), yAxis(3)-origin(3), ...
             0, 'g', 'LineWidth', 1.5, 'MaxHeadSize', 0.5);
-    text(yAxis(1), yAxis(2), yAxis(3), 'Y', 'Color', 'g', 'FontSize', 12);
+    text(yAxis(1), yAxis(2), yAxis(3), 'Y', 'Color', 'g', 'FontSize', 32);
     
     % Plot Z-axis
     quiver3(origin(1), origin(2), origin(3), ...
             zAxis(1)-origin(1), zAxis(2)-origin(2), zAxis(3)-origin(3), ...
             0, 'b', 'LineWidth', 1.5, 'MaxHeadSize', 0.5);
-    text(zAxis(1), zAxis(2), zAxis(3), 'Z', 'Color', 'b', 'FontSize', 12);
+    text(zAxis(1), zAxis(2), zAxis(3), 'Z', 'Color', 'b', 'FontSize', 32);
 
 end
