@@ -24,8 +24,10 @@ yact = xact;
 % Simulate system and collect data
 for i = 1:length(uHistory)
     % Measurement noise 
-    wn = [-0.02+0.04*rand(3,1); -0.08+0.16*rand(3,1);
-          -0.05+0.1*rand(3,1); -0.05+0.1*rand(3,1)];
+    wn = [-0.02+0.04*sum(rand(3,100),2)/100; 
+          -0.08+0.16*sum(rand(3,100),2)/100;
+          -0.05+0.1*sum(rand(3,100),2)/100; 
+          -0.05+0.1*sum(rand(3,100),2)/100];
     
     uact(:,i) = uHistory(i,:)';
     xact = xact + QuadMod(xact, uact(:,i)) * dt;
