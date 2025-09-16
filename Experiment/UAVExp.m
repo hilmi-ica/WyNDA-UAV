@@ -127,6 +127,10 @@ figure; plot3(xact,yact,zact,'k','LineWidth',4); hold on;
 plot3(xhatArray(10,:),xhatArray(11,:),xhatArray(12,:),'b--','LineWidth',4);
 patch('Faces',faces,'Vertices',vertices, ...
     'FaceColor',[0.7 0.7 0.7],'EdgeColor',[0.3 0.3 0.3]);
+text(xact(1)+0.3,yact(1)-0.1,zact(1)-0.3, ...
+    '$t_0$','FontSize',32,'Interpreter','latex')
+text(xact(end)+0.3,yact(end)+0.1,zact(end)-0.3, ...
+    '$t_f$','FontSize',32,'Interpreter','latex')
 xlabel('$x\;(m)$','Interpreter','latex'); 
 ylabel('$y\;(m)$','Interpreter','latex'); 
 zlabel('$z\;(m)$','Interpreter','latex'); hold off;
