@@ -98,6 +98,10 @@ plot3(yactArray(10,:),yactArray(11,:),yactArray(12,:),'LineWidth',4);
 plot3(xhatArray(10,:),xhatArray(11,:),xhatArray(12,:),'LineWidth',4, ...
     'Color','#77AC30','LineStyle','--');
 plotBoxSim(yactArray(:,101)); plotBoxSim(yactArray(:,201)); 
+text(yactArray(10,1)-0.1,yactArray(11,1)+0.1,yactArray(12,1)-0.5, ...
+    '$t_0$','FontSize',32,'Interpreter','latex')
+text(yactArray(10,end)-0.1,yactArray(11,end)+0.1,yactArray(12,end)-0.8, ...
+    '$t_f$','FontSize',32,'Interpreter','latex')
 xlabel('$x\;(m)$','Interpreter','latex'); 
 ylabel('$y\;(m)$','Interpreter','latex'); 
 zlabel('$z\;(m)$','Interpreter','latex'); grid on; axis equal;
